@@ -71,21 +71,20 @@ const App = () => {
             key={key}
             keyName={key}
             color={`hsl(0, 0%, ${((length - i) / length) * 90}%)`}
+            length={length}
+            i={i}
           />
         ))}
       </div>
 
-      <div
-        className="button add-button"
+      <AddButton
         onClick={() =>
           setImages({
             ...images,
             [`img${totalLength}`]: { url: '', id: totalLength, display: true },
           })
         }
-      >
-        Add an image
-      </div>
+      />
 
       {removedImages.length > 0 && (
         <div className="removed-block">
@@ -108,7 +107,22 @@ const App = () => {
   )
 }
 
-const Image = ({ images, setImages, image, keyName, color, i, ...props }) => {
+const AddButton = props => (
+  <div className="button add-button" {...props}>
+    Add an image
+  </div>
+)
+
+const Image = ({
+  images,
+  setImages,
+  image,
+  keyName,
+  color,
+  length,
+  i,
+  ...props
+}) => {
   const [hasMouseDown, setHasMouseDown] = useState(false)
   const ref = useRef()
 
@@ -130,6 +144,14 @@ const Image = ({ images, setImages, image, keyName, color, i, ...props }) => {
 
   const { url, display } = image
 
+  const oddLength = length % 2
+  const isOdd = (i + 1) % 2
+  const isLast = i + 1 === length
+
+  const sixMultiple = (i + 1) % 6 === 0
+
+  const displayWidth = oddLength && isOdd && isLast ? '100%' : '50%'
+
   return (
     <div
       className="image"
@@ -140,9 +162,9 @@ const Image = ({ images, setImages, image, keyName, color, i, ...props }) => {
             ? `url(${url}), ${color}`
             : `linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${url})`
         }`,
-        width: display ? '50%' : '15%',
+        width: display ? displayWidth : '15%',
         height: display ? '200px' : ref.current && ref.current.style.width,
-        margin: display ? '0' : `0 ${(i + 1) % 6 === 0 ? '0' : '2%'} 1rem 0`,
+        margin: display ? '0' : `0 ${sixMultiple ? '0' : '2%'} 1rem 0`,
         flexDirection: display ? 'column' : 'row',
       }}
       {...props}
@@ -157,18 +179,21 @@ const Image = ({ images, setImages, image, keyName, color, i, ...props }) => {
           imgRef={ref}
         />
       ) : (
-        <div
-          className="put-back-button"
+        <PutBackButton
           onClick={() =>
             setImages({ ...images, [keyName]: { ...image, display: true } })
           }
-        >
-          Put back
-        </div>
+        />
       )}
     </div>
   )
 }
+
+const PutBackButton = props => (
+  <div className="put-back-button" {...props}>
+    Put back
+  </div>
+)
 
 const Controllers = ({
   images,
