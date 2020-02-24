@@ -87,25 +87,33 @@ const App = () => {
       />
 
       {removedImages.length > 0 && (
-        <div className="removed-block">
-          Removed images
-          <div className="removed">
-            {removedImages.map(([key, image], i) => (
-              <Image
-                key={key}
-                image={image}
-                images={images}
-                setImages={setImages}
-                keyName={key}
-                i={i}
-              />
-            ))}
-          </div>
-        </div>
+        <RemovedImages
+          removedImages={removedImages}
+          images={images}
+          setImages={setImages}
+        />
       )}
     </Fragment>
   )
 }
+
+const RemovedImages = ({ removedImages, images, setImages }) => (
+  <div className="removed-block">
+    Removed images
+    <div className="removed">
+      {removedImages.map(([key, image], i) => (
+        <Image
+          key={key}
+          image={image}
+          images={images}
+          setImages={setImages}
+          keyName={key}
+          i={i}
+        />
+      ))}
+    </div>
+  </div>
+)
 
 const AddButton = props => (
   <div className="button add-button" {...props}>
