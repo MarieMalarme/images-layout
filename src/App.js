@@ -7,14 +7,42 @@ import React, {
 } from 'react'
 import './App.css'
 
+const Justification = ({ justification, setJustification, length }) => {
+  const justifications = ['flex-start', 'center', 'flex-end']
+
+  return (
+    <div
+      className="justify-buttons"
+      style={{
+        opacity: length ? '1' : '0.25',
+      }}
+    >
+      {justifications.map(value => (
+        <div
+          style={{
+            background: justification === value ? '#fbd052' : 'grey',
+            cursor: length ? 'pointer' : 'default',
+          }}
+          className="button justify-button"
+          key={value}
+          onClick={() => {
+            length && setJustification(value)
+          }}
+        >
+          {(value === 'flex-start' && 'Left align') ||
+            (value === 'flex-end' && 'Right align') ||
+            'Center'}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 const App = () => {
   const [images, setImages] = useState({})
   const totalLength = Object.values(images).length
 
-  const layout = useRef()
   const [justification, setJustification] = useState('flex-start')
-
-  const justifications = ['flex-start', 'center', 'flex-end']
 
   const displayedImages = Object.entries(images).filter(
     ([key, image]) => image.display,
@@ -28,36 +56,13 @@ const App = () => {
 
   return (
     <Fragment>
-      <div
-        className="justify-buttons"
-        style={{
-          opacity: length ? '1' : '0.25',
-        }}
-      >
-        {justifications.map(value => (
-          <div
-            style={{
-              background: justification === value ? '#fbd052' : 'grey',
-              cursor: length ? 'pointer' : 'default',
-            }}
-            className="button justify-button"
-            key={value}
-            onClick={() => {
-              length && setJustification(value)
-            }}
-          >
-            {(value === 'flex-start' && 'Left align') ||
-              (value === 'flex-end' && 'Right align') ||
-              'Center'}
-          </div>
-        ))}
-      </div>
+      <Justification
+        justification={justification}
+        setJustification={setJustification}
+        length={length}
+      />
 
-      <div
-        className="layout"
-        ref={layout}
-        style={{ justifyContent: justification }}
-      >
+      <div className="layout" style={{ justifyContent: justification }}>
         {displayedImages.map(([key, image], i) => (
           <Image
             images={images}
@@ -69,6 +74,7 @@ const App = () => {
           />
         ))}
       </div>
+
       <div
         className="button add-button"
         onClick={() =>
@@ -80,6 +86,7 @@ const App = () => {
       >
         Add an image
       </div>
+
       {removedImages.length > 0 && (
         <div className="removed-block">
           Removed images
