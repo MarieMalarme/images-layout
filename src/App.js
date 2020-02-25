@@ -62,7 +62,13 @@ const App = () => {
         length={length}
       />
 
-      <div className="layout" style={{ justifyContent: justification }}>
+      <div
+        className="layout"
+        style={{
+          justifyContent: justification,
+          border: length ? `solid 1px hsl(0, 0%, 92%)` : 'none',
+        }}
+      >
         {displayedImages.map(([key, image], i) => (
           <Image
             images={images}
@@ -76,12 +82,16 @@ const App = () => {
           />
         ))}
       </div>
-
       <AddButton
+        length={length}
         onClick={() =>
           setImages({
             ...images,
-            [`img${totalLength}`]: { url: '', id: totalLength, display: true },
+            [`img${totalLength}`]: {
+              url: '',
+              id: totalLength,
+              display: true,
+            },
           })
         }
       />
@@ -115,9 +125,16 @@ const RemovedImages = ({ removedImages, images, setImages }) => (
   </div>
 )
 
-const AddButton = props => (
-  <div className="button add-button" {...props}>
-    Add an image
+const AddButton = ({ length, ...props }) => (
+  <div
+    style={{
+      height: length === 0 ? '302px' : '60px',
+      marginTop: length ? '40px' : 0,
+    }}
+    className="button add-button"
+    {...props}
+  >
+    + Add a new image
   </div>
 )
 
