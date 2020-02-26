@@ -42,6 +42,8 @@ const App = () => {
   const [images, setImages] = useState({})
   const totalLength = Object.values(images).length
 
+  const layoutRef = useRef()
+
   const [justification, setJustification] = useState('flex-start')
 
   const displayedImages = Object.entries(images).filter(
@@ -68,6 +70,7 @@ const App = () => {
           justifyContent: justification,
           border: length ? `solid 1px hsl(0, 0%, 92%)` : 'none',
         }}
+        ref={layoutRef}
       >
         {displayedImages.map(([key, image], i) => (
           <Image
@@ -101,16 +104,17 @@ const App = () => {
           removedImages={removedImages}
           images={images}
           setImages={setImages}
+          layoutRef={layoutRef}
         />
       )}
     </Fragment>
   )
 }
 
-const RemovedImages = ({ removedImages, images, setImages }) => (
+const RemovedImages = ({ removedImages, images, setImages, layoutRef }) => (
   <div className="removed-block">
     Removed images
-    <div className="removed">
+    <div className="removed-images">
       {removedImages.map(([key, image], i) => (
         <Image
           key={key}
@@ -118,6 +122,7 @@ const RemovedImages = ({ removedImages, images, setImages }) => (
           images={images}
           setImages={setImages}
           keyName={key}
+          layoutRef={layoutRef}
           i={i}
         />
       ))}
@@ -145,6 +150,7 @@ const Image = ({
   keyName,
   color,
   length,
+  layoutRef,
   i,
   ...props
 }) => {
@@ -177,20 +183,22 @@ const Image = ({
 
   const displayWidth = oddLength && isOdd && isLast ? '100%' : '50%'
 
+  const removedHeight =
+    !display && (15 / 100) * layoutRef.current.getBoundingClientRect().width
+
   return (
     <div
-      className="image"
+      className={`image ${display ? 'displayed' : 'removed'}`}
       ref={ref}
       style={{
         background: `center / cover no-repeat ${
           display
             ? `url(${url}), ${color}`
-            : `linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${url})`
+            : `linear-gradient(to right, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${url})`
         }`,
         width: display ? displayWidth : '15%',
-        height: display ? '200px' : ref.current && ref.current.style.width,
+        height: display ? '200px' : removedHeight,
         margin: display ? '0' : `0 ${sixMultiple ? '0' : '2%'} 1rem 0`,
-        flexDirection: display ? 'column' : 'row',
       }}
       {...props}
     >

@@ -63,6 +63,8 @@ body {
   text-align: center;
   width: 100%;
   cursor: pointer;
+  pointer-events: auto;
+  color: white;
 }
 
 .justify-button {
@@ -81,9 +83,25 @@ body {
   margin-top: 4rem;
 }
 
-.removed {
+.removed-images {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   margin-top: 2rem;
+}
+
+.displayed {
+  flex-direction: column;
+}
+
+.removed {
+  border-radius: 50%;
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+
+.removed:hover {
+  filter: grayscale(0%);
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
 }
