@@ -270,7 +270,19 @@ const Controllers = ({
     />
 
     <div
-      className="handler"
+      className="handler handler-corner"
+      onMouseDown={() => {
+        setHasMouseDown(true)
+      }}
+    />
+    <div
+      className="handler handler-down"
+      onMouseDown={() => {
+        setHasMouseDown(true)
+      }}
+    />
+    <div
+      className="handler handler-right"
       onMouseDown={() => {
         setHasMouseDown(true)
       }}

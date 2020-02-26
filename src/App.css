@@ -31,11 +31,28 @@ body {
 
 .handler {
   position: absolute;
+  background: #fbd052;
+}
+
+.handler-corner {
   width: 15px;
   height: 15px;
   right: 0;
   bottom: 0;
-  background: #fbd052;
+}
+
+.handler-down {
+  width: 50px;
+  height: 7px;
+  bottom: 0;
+  align-self: center;
+}
+
+.handler-right {
+  width: 7px;
+  height: 50px;
+  right: 0;
+  top: calc(50% - 25px);
 }
 
 .button {
