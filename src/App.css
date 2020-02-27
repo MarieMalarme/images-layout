@@ -26,12 +26,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1.75rem;
 }
 
 .handler {
   position: absolute;
-  background: #fbd052;
+  display: flex;
+  justify-content: space-between;
 }
 
 .handler-corner {
@@ -39,6 +40,8 @@ body {
   height: 15px;
   right: 0;
   bottom: 0;
+  cursor: nwse-resize;
+  background: #fbd052;
 }
 
 .handler-down {
@@ -46,6 +49,13 @@ body {
   height: 7px;
   bottom: 0;
   align-self: center;
+  cursor: ns-resize;
+  flex-direction: column;
+}
+
+.handler-item-down {
+  background: #fbd052;
+  height: 1px;
 }
 
 .handler-right {
@@ -53,6 +63,12 @@ body {
   height: 50px;
   right: 0;
   top: calc(50% - 25px);
+  cursor: ew-resize;
+}
+
+.handler-item-right {
+  background: #fbd052;
+  width: 1px;
 }
 
 .button {
@@ -63,11 +79,26 @@ body {
   cursor: pointer;
 }
 
+.hover-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.hover-button:hover {
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
 .add-button {
   width: 100%;
   background: white;
   box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.add-button:hover {
+  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.15);
 }
 
 .remove-button {
@@ -84,16 +115,21 @@ body {
   color: white;
 }
 
-.justify-button {
-  background: grey;
+.layout-buttons {
+  margin-bottom: 40px;
   margin-top: 2rem;
-  width: 30%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .justify-buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  width: 55%;
+}
+
+.displayed {
+  flex-direction: column;
 }
 
 .removed-block {
@@ -105,10 +141,6 @@ body {
   flex-wrap: wrap;
   width: 100%;
   margin-top: 2rem;
-}
-
-.displayed {
-  flex-direction: column;
 }
 
 .removed {
